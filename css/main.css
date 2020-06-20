@@ -24,11 +24,20 @@
 #pattern-container {
     border: solid 1px black;
     box-shadow: 1px 1px 3px;
+    overflow: hidden;
     text-align: center;
+}
+
+#pattern-container svg {
+    margin-bottom: -4px; /* TODO cannot figure out how else to get rid of that space... */
 }
 
 .labeled-slider {
     margin-top: 2em;
+}
+
+.light-bg {
+    background-color: #f0f0f0;
 }
 
 .pattern-preview {
@@ -37,6 +46,7 @@
 }
 
 .pattern-select {
+    background-color: white;
     border: solid 1px black;
     cursor: pointer;
     display: inline-block;

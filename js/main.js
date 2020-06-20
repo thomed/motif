@@ -48,8 +48,8 @@ var patternContainer = new Vue({
     },
 
     mounted: function() {
-        this.handleResize()
-        window.addEventListener('resize', this.handleResize)
+        this.handleResize();
+        window.addEventListener('resize', this.handleResize);
     }
 });
 
@@ -64,6 +64,7 @@ var listContainer = new Vue({
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+
     // load patterns from xml file
     var xhttp = new XMLHttpRequest();
     xhttp.onload = function() {

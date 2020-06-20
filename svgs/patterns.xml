@@ -2,7 +2,9 @@
 <!--
     SVG files in here will have to adhere to some conventions:
         - the SVG tag must specify viewBox
-        - TODO
+
+    SVG files may need additional attributes/metadata set to communicate what 
+    parameters can be attached to input
  -->
 <patterns>
     <pattern>
