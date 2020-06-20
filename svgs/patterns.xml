@@ -6,4 +6,7 @@
     <pattern>
         <file>aztec.svg</file>
     </pattern>
+    <pattern>
+        <file>hline.svg</file>
+    </pattern>
 </patterns>

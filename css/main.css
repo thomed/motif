@@ -42,6 +42,10 @@
     display: inline-block;
 }
 
+.pattern-select:hover {
+    box-shadow: 1px 1px 3px;
+}
+
 .slider-label {
     margin-top: 0.5em;
     position: absolute;
