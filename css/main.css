@@ -5,8 +5,25 @@
     max-width: 1200px;
 }
 
+#list-container {
+    border: solid 1px black;
+    margin-top: 1em;
+    padding: 1em;
+}
+
+#list-container li {
+    display: inline;
+    margin-right: 1em;
+}
+
+#list-container ul {
+    margin: 0;
+    padding: 0;
+}
+
 #pattern-container {
     border: solid 1px black;
+    box-shadow: 1px 1px 3px;
     text-align: center;
 }
 
@@ -20,11 +37,12 @@
 }
 
 .pattern-select {
-    display: inline-block;
     border: solid 1px black;
+    cursor: pointer;
+    display: inline-block;
 }
 
 .slider-label {
-    position: absolute;
     margin-top: 0.5em;
+    position: absolute;
 }

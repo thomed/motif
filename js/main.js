@@ -34,6 +34,7 @@ var patternContainer = new Vue({
 
         setPattern(name) {
             console.log("Setting pattern to: " + name);
+            this.toggle();
         },
 
         // test to toggle svg pattern

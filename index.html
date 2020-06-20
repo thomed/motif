@@ -44,14 +44,13 @@
 				<input class="labeled-slider" v-model="scale" @change="handleResize" type="range" id="scale" min="1" max="2" step="0.01" >
 				<label class="slider-label" for="scale">Something: 1</label>
 				<input class="labeled-slider" type="range" id="scale" min="1" max="2" step="0.01">
-				<input type="button" v-on:click="toggle" value="toggle">
 			</div>
 		</div>
 
 		<div id="list-container">
 			<ul>
 				<li v-for="pattern in patterns">
-					<a href="#" class="pattern-select" v-bind:onclick="'patternContainer.setPattern(\'' + pattern + '\')'">
+					<a class="pattern-select" v-bind:onclick="'patternContainer.setPattern(\'' + pattern + '\')'">
 						<div class="pattern-preview" v-bind:style="'background-image:url(./svgs/' + pattern + ')'" v-bind:data-name="pattern"></div>
 					</a>
 				</li>
