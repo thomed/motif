@@ -14,9 +14,26 @@
 	<div id="main-content">
 		<div id="display-container">
 			<div id="pattern-container" >
+				<svg id="pattern-src" width="100" height="100" viewBox="0 0 200 200">
+					<defs>
+						<linearGradient id="grad1" x1="0" x2="0" y1="0" y2="1">
+							<stop offset="0%" stop-color="blue"></stop>
+							<stop offset="100%" stop-color="red"></stop>
+						</linearGradient>
+
+						<linearGradient id="grad2" x1="0" x2="1" y1="0" y2="0">
+							<stop offset="0%" stop-color="red"></stop>
+							<stop offset="100%" stop-color="blue"></stop>
+						</linearGradient>
+					</defs>
+
+					<rect fill="url(#grad1)" width="100" height="200" x="0" y="0" ></rect>
+					<rect fill="url(#grad2)" width="100" height="200" x="100" y="0"></rect>
+				</svg>
+
 				<svg v-bind:width="width" height="300">
 					<defs>
-						<g>
+						<!-- <g>
 							<linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
 								<stop offset="0%" stop-color="blue"></stop>
 								<stop offset="50%" stop-color="white"></stop>
@@ -38,11 +55,11 @@
 							<rect id="r1" fill="url(#g1)" v-bind:width="scale * length" v-bind:height="scale * length" x="0" y="0" />
 							<rect fill="url(#g2)" v-bind:width="scale * length / 2" v-bind:height="scale * length / 2" x="0" y="0"></rect>
 							<use href="#path104" style="transform: scale(10)" x="0" y="0"></use>
-						</g>
+						</g> -->
 
 
 						<pattern id="pattern" x="0" y="0" v-bind:width="1.0 / nx" v-bind:height="1.0 / ny">
-							<use href="#gr1"></use>
+							<use href="#pattern-src" v-bind:width="scale * length" v-bind:height="scale * length"></use>
 						</pattern>
 					</defs>
 					<rect id="pattern-packer" v-bind:width="scale * length * nx" v-bind:height="scale * length * ny" fill="url(#pattern)" stroke="black"></rect>

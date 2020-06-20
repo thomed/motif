@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    SVG files in here will have to adhere to some conventions:
+        - the SVG tag must specify viewBox
+        - TODO
+ -->
 <patterns>
     <pattern>
         <file>morphing-diamonds.svg</file>
