@@ -5,7 +5,8 @@ var patternContainer = new Vue({
     el: "#display-container",
     data: {
         height: 'auto',    // the height of the container
-        length: 100,       // the length of a side of the pattern
+        pwidth: 100,       // the width of the pattern
+        pheight: 100,      // the height of the pattern
         nx: 3,             // number of times pattern repeats horizontally
         ny: 3,             // number of times pattern repeats vertically
         pattern: "g1",     // the name of the current pattern
@@ -18,8 +19,8 @@ var patternContainer = new Vue({
         handleResize(event) {
             this.width = document.getElementById("pattern-container").clientWidth;
             this.height = document.getElementById("pattern-container").clientHeight;
-            this.nx = this.width / (this.length * this.scale);
-            this.ny = this.height / (this.length * this.scale);
+            this.nx = this.width / (this.pwidth * this.scale);
+            this.ny = this.height / (this.pheight * this.scale);
         },
 
         setPattern(name) {
