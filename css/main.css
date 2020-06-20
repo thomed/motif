@@ -1,0 +1,24 @@
+
+/* svg {
+    width: auto;
+    height: auto;
+} */
+
+.labeled-slider {
+    margin-top: 2em;
+}
+
+.slider-label {
+    position: absolute;
+    margin-top: 0.5em;
+}
+
+#pattern-container {
+    border: solid 1px black;
+    text-align: center;
+}
+
+#main-content {
+    padding: 1em;
+}
+
