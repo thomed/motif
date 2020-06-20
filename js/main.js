@@ -25,17 +25,9 @@ var patternContainer = new Vue({
 
         setPattern(name) {
             console.log("Setting pattern to: " + name);
-            this.toggle();
+//            this.toggle();
             loadSVG(name);
-        },
-
-        // test to toggle svg pattern
-        toggle() {
-            if (this.pattern == "g2") {
-                this.pattern = "g1";
-            } else {
-                this.pattern = "g2";
-            }
+            this.scale = 1;
         }
     },
 

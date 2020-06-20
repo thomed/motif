@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    SVG files in here will have to adhere to some conventions:
+    SVG files listed in here will have to adhere to some conventions:
         - the SVG tag must specify viewBox
+        - the SVG width and height should use pixels as measurement unit
+            - if other unit is used, may not appear as expected
 
     SVG files may need additional attributes/metadata set to communicate what 
     parameters can be attached to input
@@ -14,6 +16,15 @@
         <file>aztec.svg</file>
     </pattern>
     <pattern>
-        <file>hline.svg</file>
+        <file>hlines.svg</file>
+    </pattern>
+	<pattern>
+		<file>vlines.svg</file>
+    </pattern>
+    <pattern>
+        <file>simplegrid.svg</file>
+    </pattern>
+    <pattern>
+        <file>xbox.svg</file>
     </pattern>
 </patterns>

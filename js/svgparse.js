@@ -3,28 +3,23 @@ function loadSVG(filename) {
     console.log("Loading " + filename);
     var xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
+        // svg xml
         var dom = new DOMParser().parseFromString(xhttp.response, "application/xml");
+
+        // parent container for svg in page
         var parent = document.getElementById("pattern-src").parentElement;
 
-//        var patternWidth = "(\d+)"
-
-        console.log(dom.rootElement);
-        console.log(parent);
-
+        // replace existing svg with the new one
         parent.innerHTML = dom.rootElement.outerHTML;
         parent.children[0].id = "pattern-src";
 
-        //var patternWidth = parent.children[0].getAttribute("width").matchAll("\d+");
+        // some svgs will have e.g. '32px' for attribute so need to strip to just nums
         var patternWidth = parent.children[0].getAttribute("width").match(/(\d+)/g)[0];
         var patternHeight = parent.children[0].getAttribute("height").match(/(\d+)/g)[0];
         patternContainer.pwidth = patternWidth;
         patternContainer.pheight = patternHeight;
 
         patternContainer.handleResize();
-        console.log(patternWidth);
-
-        //patternContainer.pwidth = parent.children[0].getAttribute("width");
-//        console.log(parent.children[0].getAttribute("width"));
     }
 
     xhttp.open("GET", "../svgs/" + filename, true);
