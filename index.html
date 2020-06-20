@@ -12,38 +12,50 @@
 <body>
 
 	<div id="main-content">
-		<div id="pattern-container" >
-			<svg v-bind:width="width" height="300">
-				<defs>
-					<g>
-						<linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-							<stop offset="0%" stop-color="blue"></stop>
+		<div id="display-container">
+			<div id="pattern-container" >
+				<svg v-bind:width="width" height="300">
+					<defs>
+						<g>
+							<linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+								<stop offset="0%" stop-color="blue"></stop>
+								<stop offset="50%" stop-color="white"></stop>
+								<stop offset="100%" stop-color="blue"></stop>
+							</linearGradient>
+						</g>
+
+						<linearGradient id="g2" x1="0" x2="1" y1="0" y2="0">
+							<stop offset="0%" stop-color="green"></stop>
 							<stop offset="50%" stop-color="white"></stop>
-							<stop offset="100%" stop-color="blue"></stop>
+							<stop offset="100%" stop-color="green"></stop>
 						</linearGradient>
-					</g>
 
-					<linearGradient id="g2" x1="0" x2="1" y1="0" y2="0">
-						<stop offset="0%" stop-color="green"></stop>
-						<stop offset="50%" stop-color="white"></stop>
-						<stop offset="100%" stop-color="green"></stop>
-					</linearGradient>
+						<pattern id="pattern" x="0" y="0" v-bind:width="1.0 / nx" v-bind:height="1.0 / ny">
+							<rect id="pattern-fill" v-bind:width="scale * length" v-bind:height="scale * length" v-bind:fill=" 'url(#' + pattern + ')' " x="0" y="0"></rect>
+						</pattern>
+					</defs>
 
-					<pattern id="pattern" x="0" y="0" v-bind:width="1.0 / nx" v-bind:height="1.0 / ny">
-						<rect id="pattern-fill" v-bind:width="scale * length" v-bind:height="scale * length" v-bind:fill=" 'url(#' + pattern + ')' " x="0" y="0"></rect>
-					</pattern>
-				</defs>
+					<rect id="pattern-packer" v-bind:width="scale * length * nx" v-bind:height="scale * length * ny" fill="url(#pattern)" stroke="black"></rect>
+				</svg>
+			</div>
 
-				<rect id="pattern-packer" v-bind:width="scale * length * nx" v-bind:height="scale * length * ny" fill="url(#pattern)" stroke="black"></rect>
-			</svg>
+			<div class="controls-container">
+				<label class="slider-label" for="scale">Scale: {{ scale }}</label>
+				<input class="labeled-slider" v-model="scale" @change="handleResize" type="range" id="scale" min="1" max="2" step="0.01" >
+				<label class="slider-label" for="scale">Something: 1</label>
+				<input class="labeled-slider" type="range" id="scale" min="1" max="2" step="0.01">
+				<input type="button" v-on:click="toggle" value="toggle">
+			</div>
 		</div>
 
-		<div class="controls-container">
-			<label class="slider-label" for="scale">Scale: {{ scale }}</label>
-			<input class="labeled-slider" v-model="scale" @change="handleResize" type="range" id="scale" min="1" max="2" step="0.01" >
-			<label class="slider-label" for="scale">Something: 1</label>
-			<input class="labeled-slider" type="range" id="scale" min="1" max="2" step="0.01">
-			<input type="button" v-on:click="toggle" value="toggle">
+		<div id="list-container">
+			<ul>
+				<li v-for="pattern in patterns">
+					<a href="#" class="pattern-select" v-bind:onclick="'patternContainer.setPattern(\'' + pattern + '\')'">
+						<div class="pattern-preview" v-bind:style="'background-image:url(./svgs/' + pattern + ')'" v-bind:data-name="pattern"></div>
+					</a>
+				</li>
+			</ul>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

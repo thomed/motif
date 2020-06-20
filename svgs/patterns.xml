@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <patterns>
     <pattern>
-
+        <file>morphing-diamonds.svg</file>
     </pattern>
     <pattern>
-
+        <file>aztec.svg</file>
     </pattern>
 </patterns>

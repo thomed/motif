@@ -1,16 +1,8 @@
 
-/* svg {
-    width: auto;
-    height: auto;
-} */
-
-.labeled-slider {
-    margin-top: 2em;
-}
-
-.slider-label {
-    position: absolute;
-    margin-top: 0.5em;
+#main-content {
+    padding: 1em;
+    margin: auto;
+    max-width: 1200px;
 }
 
 #pattern-container {
@@ -18,9 +10,21 @@
     text-align: center;
 }
 
-#main-content {
-    padding: 1em;
-    margin: auto;
-    max-width: 1200px;
+.labeled-slider {
+    margin-top: 2em;
 }
 
+.pattern-preview {
+    height: 100px;
+    width: 100px;
+}
+
+.pattern-select {
+    display: inline-block;
+    border: solid 1px black;
+}
+
+.slider-label {
+    position: absolute;
+    margin-top: 0.5em;
+}

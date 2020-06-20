@@ -1,12 +1,18 @@
 /**
  * TODO
- * - Store svg patterns in an xml file and read from on page load
- *     - May have to do some weird workaround or injection to maintain pattern while
- *       supporting normal svg importing.
+ *    - May have to do some weird workaround or injection to maintain pattern while
+ *      supporting normal svg importing.
+ *    - Can also just store each svg individually, which is probably the wise thing to do.
+ *        - Maintain a master list of what's available and the do a request for each svg.
+ *        - This would be easier to maintain.
  */
 
+
+/**
+ * The vue for the current display and its controls
+ */
 var patternContainer = new Vue({
-    el: "#main-content",
+    el: "#display-container",
     data: {
         height: 'auto',    // the height of the container
         length: 100,       // the length of a side of the pattern
@@ -26,6 +32,10 @@ var patternContainer = new Vue({
             this.ny = this.height / (this.length * this.scale);
         },
 
+        setPattern(name) {
+            console.log("Setting pattern to: " + name);
+        },
+
         // test to toggle svg pattern
         toggle() {
             if (this.pattern == "g2") {
@@ -42,16 +52,29 @@ var patternContainer = new Vue({
     }
 });
 
+/**
+ * The view for the list of available patterns
+ */
+var listContainer = new Vue({
+    el: "#list-container",
+    data: {
+        patterns: []
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     // load patterns from xml file
     var xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
-        console.log(xhttp.response);
         var dom = new DOMParser().parseFromString(xhttp.response, "application/xml");
-        console.log(dom.documentElement);
+        var patterns = dom.getElementsByTagName("pattern");
+        for (let p of patterns){ 
+            console.log(p.getElementsByTagName("file")[0].textContent);
+            listContainer.patterns.push(p.getElementsByTagName("file")[0].textContent);
+        }
     }
 
-    xhttp.open("GET", "../patterns.xml", true);
+    xhttp.open("GET", "../svgs/patterns.xml", true);
     xhttp.send(null);
 });
 
