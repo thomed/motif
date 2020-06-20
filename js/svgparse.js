@@ -4,12 +4,12 @@ function loadSVG(filename) {
     var xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
         var dom = new DOMParser().parseFromString(xhttp.response, "application/xml");
-        console.log(dom);
-//        var patterns = dom.getElementsByTagName("pattern");
-//        for (let p of patterns){ 
-//            console.log(p.getElementsByTagName("file")[0].textContent);
-//            listContainer.patterns.push(p.getElementsByTagName("file")[0].textContent);
-//        }
+        var parent = document.getElementById("pattern-src").parentElement;
+        console.log(dom.rootElement);
+        console.log(parent);
+
+        parent.innerHTML = dom.rootElement.outerHTML;
+        parent.children[0].id = "pattern-src";
     }
 
     xhttp.open("GET", "../svgs/" + filename, true);
