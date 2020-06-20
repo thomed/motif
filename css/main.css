@@ -20,5 +20,7 @@
 
 #main-content {
     padding: 1em;
+    margin: auto;
+    max-width: 1200px;
 }
 

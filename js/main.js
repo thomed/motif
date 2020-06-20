@@ -1,3 +1,10 @@
+/**
+ * TODO
+ * - Store svg patterns in an xml file and read from on page load
+ *     - May have to do some weird workaround or injection to maintain pattern while
+ *       supporting normal svg importing.
+ */
+
 var patternContainer = new Vue({
     el: "#main-content",
     data: {
@@ -36,7 +43,16 @@ var patternContainer = new Vue({
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    // load patterns from xml file
+    var xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        console.log(xhttp.response);
+        var dom = new DOMParser().parseFromString(xhttp.response, "application/xml");
+        console.log(dom.documentElement);
+    }
 
+    xhttp.open("GET", "../patterns.xml", true);
+    xhttp.send(null);
 });
 
 
