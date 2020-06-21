@@ -21,6 +21,7 @@ function loadSVG(filename) {
         patternContainer.pheight = patternHeight;
 
         patternContainer.handleResize();
+        patternContainer.bindStyles();
     }
 
     xhttp.open("GET", "../svgs/" + filename, true);
