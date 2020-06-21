@@ -36,7 +36,7 @@ var patternContainer = new Vue({
 });
 
 /**
- * The view for the list of available patterns
+ * The vue for the list of available patterns
  */
 var listContainer = new Vue({
     el: "#list-container",

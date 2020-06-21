@@ -1,6 +1,7 @@
 
 function loadSVG(filename) {
-    console.log("Loading " + filename);
+
+    // load SVG data from file in svgs path
     var xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
         // svg xml
@@ -27,5 +28,24 @@ function loadSVG(filename) {
 }
 
 function exportSVG() {
-    console.log("Export SVG");
+    // get pattern svg and encode as base64 for download
+    var svg = document.getElementById("pattern-src");
+    var svgData = new XMLSerializer().serializeToString(svg);
+    var svgB64 = window.btoa(svgData);
+    var dataURI = "data:image/svg+xml;base64," + svgB64;
+
+//    console.log(svg);
+//    console.log(svgData);
+//    console.log(svgB64);
+    downloadBase64File("pattern.svg", dataURI);
+}
+
+function downloadBase64File(filename, uri) {
+    var link = document.createElement("a");
+    link.download = filename;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    delete link;
 }
