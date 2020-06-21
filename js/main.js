@@ -31,7 +31,7 @@ var patternContainer = new Vue({
         },
 
         // parse svg style tag and bind to values
-        bindStyles() {
+        parseStyles() {
             this.styles = {};
             var svg = document.getElementById("pattern-src");
             var styles = svg.getElementsByTagName("style")[0];
@@ -41,19 +41,11 @@ var patternContainer = new Vue({
                 return;
             }
 
-            // styles.firstChild.data =
-            // `
-            // path {
-            //     stroke-width: 10;
-            //     stroke: #ff0000;
-            // }
-            // `;
-
             // CSS regexes
-            var selectorRegex = /([#.\w]+)\s*{/g;
+            var selectorRegex = /([#.\w\-]+)\s*{/g;
             var propertyRegex = /([\w\-]+)\s*:\s*(.+);/g;
-            var propertyNumberGroup = /:\s*([\d]+).*;/g;
-            var propertyHexColorGroup = /\s*(#[\da-fA-F]{6});/g;
+            var propertyNumberGroup = /\s*([\d]+).*/g;
+            var propertyHexColorGroup = /\s*(#[\da-fA-F]{6})/g;
 
             // parse the CSS
             var styleLines = styles.firstChild.data.split('\n');
@@ -61,26 +53,55 @@ var patternContainer = new Vue({
                 
                 // ignore empty lines
                 var line = styleLines[i].trim();
-                if (line.length == 0 ){ 
-                    continue;
-                }
-//                console.log(line);
+                if (line.length == 0 ){ continue; }
 
-                // find CSS group selector
-                var selectorMatch = line.match(selectorRegex);
-                if (selectorMatch.length > 0) {
-                    console.log("Selector: " + selectorMatch[0]);
+                // find CSS selector name
+                selectorRegex.lastIndex = 0;
+                var selectorMatch = selectorRegex.exec(line);
+                if (selectorMatch.length > 1) {
+                    var selectorName = selectorMatch[1];
+                    this.styles[selectorName] = {};
 
                     // evaluate the properties in this selector's group
                     while (line[0] != '}') {
+
+                        // skip empty
                         line = styleLines[++i].trim();
-                        console.log(line);
+                        if (line.length == 0) { continue; }
+
+                        // reset regex
+                        propertyRegex.lastIndex = 0;
+                        propertyHexColorGroup.lastIndex = 0;
+                        propertyNumberGroup.lastIndex = 0;
+
+                        // match for property name and raw value on current line
+                        var propertyMatch = propertyRegex.exec(line);
+                        if (propertyMatch == null || propertyMatch.length < 2) { continue; }
+                        var propertyName = propertyMatch[1];
+                        var propertyValue = propertyMatch[2];
+
+                        // find what type of property value this is any perform and changes needed to what was parses
+                        var propertyValueTypeMatch;
+                        var propertyValueType;
+                        if ((propertyValueTypeMatch = propertyHexColorGroup.exec(propertyValue)) != null) {
+                            propertyValueType = "hexcolor";
+                            propertyValue = propertyValueTypeMatch[1];
+                        } else if ((propertyValueTypeMatch = propertyNumberGroup.exec(propertyValue)) != null) {
+                            propertyValueType = "number";
+                            propertyValue = propertyValueTypeMatch[1];
+                        }
+
+                        // save properties
+                        var obj = {};
+                        obj.defaultValue = propertyValue;
+                        obj.value = propertyValue;
+                        obj.valueType = propertyValueType;
+                        this.styles[selectorName][propertyName] = obj;
                     }
-
                 }
-
             }
 
+            console.log(this.styles);
         }
     },
 
