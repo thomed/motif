@@ -22,6 +22,7 @@
 }
 
 #pattern-container {
+    position: relative;
     border: solid 1px black;
     box-shadow: 1px 1px 3px;
     overflow: hidden;
@@ -38,6 +39,18 @@
 
 .light-bg {
     background-color: #f0f0f0;
+}
+
+.pattern-overlay {
+    width: 100%;
+    text-align: right;
+    position: absolute;
+    height: 1.5em;
+    transform: translateY(-1.5em);
+}
+
+.pattern-overlay * {
+    height: 100%;
 }
 
 .pattern-preview {

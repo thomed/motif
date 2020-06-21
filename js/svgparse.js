@@ -25,3 +25,7 @@ function loadSVG(filename) {
     xhttp.open("GET", "../svgs/" + filename, true);
     xhttp.send(null);
 }
+
+function exportSVG() {
+    console.log("Export SVG");
+}
