@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="25px" height="25px" version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
- <g fill="none" stroke="#000" stroke-width="1px">
-  <path d="m0 0 100 100"/>
-  <path d="m100 0-100 100"/>
- </g>
+    <style>
+        path {
+            stroke-width: 1;
+            stroke: #000000;
+        }
+    </style>
+    <g fill="none">
+        <path d="m0 0 100 100"/>
+        <path d="m100 0-100 100"/>
+    </g>
 </svg>
