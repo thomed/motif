@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="25px" height="25px" version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <style>
+        :root {
+            --default-stroke-width: 40;
+            --default-stroke-color: #ff0000;
+        }
+
         path {
-            stroke-width: 10;
-            stroke: #000000;
+            stroke-width: var(--default-stroke-width);
+            stroke: var(--default-stroke-color);
         }
 
         .bg {
             background-color: #ffff00;
         }
     </style>
-    <g fill="none">
+    <g fill="none" stroke="#000000">
         <path d="m0 0 100 100"/>
         <path d="m100 0-100 100"/>
     </g>

@@ -5,15 +5,13 @@
         - the SVG width and height should use pixels as measurement unit
             - if other unit is used, may not appear as expected
         - the style tag should be a direct child of the svg tag
-            - each style property must be on its own line.
-            - colors must be in hex format
-            - the selector must be on the same line as '{'
-                - '}' must be on its own line
-            - only one selector for a style group
-                - supports tag names, class names, and id's only
-
-    SVG files may need additional attributes/metadata set to communicate what 
-    parameters can be attached to input
+            - CSS properties that are desired to be attached to input should 
+              be assigned to a CSS variable in the ':root' selector at the top
+              of your <style> tag
+                - the :root selector should only hold CSS variables
+                - each CSS variable should be on its own line
+                - colors should be in hex format and be full 6 characters (e.g. not 3 hex format)
+                - for now numbers should use pixels as their unit
  -->
 <patterns>
     <pattern>

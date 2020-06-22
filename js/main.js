@@ -33,56 +33,52 @@ var patternContainer = new Vue({
         // parse svg style tag and bind to values
         parseStyles() {
             this.styles = {};
+            this.styles.rootVars = [];
+            this.styles.main = '';
             var svg = document.getElementById("pattern-src");
             var styles = svg.getElementsByTagName("style")[0];
 
             // if no style tag then return
-            if (typeof styles == 'undefined') {
-                return;
-            }
+            if (typeof styles == 'undefined') { return; }
 
             // CSS regexes
-            var selectorRegex = /([#.\w\-]+)\s*{/g;
+//            var selectorRegex = /([#.\w\-]+)\s*{/g;
+//            var rootRegex = /:root\s*{\s+(--[\w-]+\s*:\s*[#\w\d]+;\s+)*}/g;
             var propertyRegex = /([\w\-]+)\s*:\s*(.+);/g;
             var propertyNumberGroup = /\s*([\d]+).*/g;
             var propertyHexColorGroup = /\s*(#[\da-fA-F]{6})/g;
 
-            // parse the CSS
+            // the CSS text
+            var styleText = styles.firstChild.data;
+
+            // find :root (chosen convention that it should be first selector)
+            var rootParsed = false;
             var styleLines = styles.firstChild.data.split('\n');
-            for (i = 0; i < styleLines.length; i ++) {
-                
-                // ignore empty lines
-                var line = styleLines[i].trim();
-                if (line.length == 0 ){ continue; }
+            for (i = 0; i < styleLines.length; i++) {
+                var line = styleLines[i];
+                if (line.trim().length == 0) { continue; }
 
-                // find CSS selector name
-                selectorRegex.lastIndex = 0;
-                var selectorMatch = selectorRegex.exec(line);
-                if (selectorMatch.length > 1) {
-                    var selectorName = selectorMatch[1];
-                    this.styles[selectorName] = {};
+                // found :root start
+                if (!rootParsed && line.trim().substring(0, 5) == ":root") {
+//                    console.log(line);
 
-                    // evaluate the properties in this selector's group
-                    while (line[0] != '}') {
-
-                        // skip empty
-                        line = styleLines[++i].trim();
-                        if (line.length == 0) { continue; }
-
-                        // reset regex
+                    // parse properties until closing of :root
+                    while (line.trim()[0] !=  "}") {
                         propertyRegex.lastIndex = 0;
-                        propertyHexColorGroup.lastIndex = 0;
                         propertyNumberGroup.lastIndex = 0;
+                        propertyHexColorGroup.lastIndex = 0;
+                        line = styleLines[++i];
+//                        console.log(line);
 
-                        // match for property name and raw value on current line
                         var propertyMatch = propertyRegex.exec(line);
-                        if (propertyMatch == null || propertyMatch.length < 2) { continue; }
+                        if (propertyMatch == null) { break; }
+
                         var propertyName = propertyMatch[1];
                         var propertyValue = propertyMatch[2];
 
                         // find what type of property value this is and perform any changes needed to what was parsed
-                        var propertyValueTypeMatch;
                         var propertyValueType;
+                        var propertyValueTypeMatch;
                         if ((propertyValueTypeMatch = propertyHexColorGroup.exec(propertyValue)) != null) {
                             propertyValueType = "hexcolor";
                             propertyValue = propertyValueTypeMatch[1];
@@ -93,17 +89,37 @@ var patternContainer = new Vue({
                             propertyValue = "20";
                         }
 
-                        // save properties
+                        // save variables
                         var obj = {};
+                        obj.propertyName = propertyName;
                         obj.defaultValue = propertyValue;
                         obj.value = propertyValue;
                         obj.valueType = propertyValueType;
-                        this.styles[selectorName][propertyName] = obj;
-                    }
-                }
-            }
+                        this.styles.rootVars.push(obj);
 
-//            console.log(this.styles);
+                    }
+
+//                    this.styles.rootVars.forEach(element => {
+//                        console.log(element.propertyName + ": " + element.value);
+//                        console.log(element);
+//                    });
+
+                    rootParsed = true;
+                } else if (rootParsed) {
+
+                    // save rest of style tag
+                    this.styles.main += line + "\n";
+                }
+
+            }
+            
+
+            console.log(this.styles.main);
+            // TODO
+            // Copy the remainder of the style string and save so that
+            // it can be appended after the root
+
+
         },
 
         // Generate inputs and bind to style values. Inject into svg style tag.

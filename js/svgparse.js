@@ -22,7 +22,7 @@ function loadSVG(filename) {
 
         patternContainer.handleResize();
         patternContainer.parseStyles();
-        patternContainer.bindStyles();
+//        patternContainer.bindStyles();
     }
 
     xhttp.open("GET", "../svgs/" + filename, true);
