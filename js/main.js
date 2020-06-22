@@ -4,14 +4,14 @@
 var patternContainer = new Vue({
     el: "#display-container",
     data: {
-        height: 'auto',    // the height of the container
+        height: 100,       // the height of the container
         pwidth: 100,       // the width of the pattern
         pheight: 100,      // the height of the pattern
         nx: 3,             // number of times pattern repeats horizontally
         ny: 3,             // number of times pattern repeats vertically
         pattern: "g1",     // the name of the current pattern
         scale: 1,          // scale of pattern
-        width: 'auto',     // the width of the container
+        width: 100,        // the width of the container
         styles: {}         // model for svg styles
     },
 
@@ -95,28 +95,17 @@ var patternContainer = new Vue({
             }
         },
 
-        // Generate inputs and bind to style values. Inject into svg style tag.
-        bindStyles() {
-            // clear existing generated controls
-            var rootStr = 'root: {\n';
-            var styleTag = document.getElementById("pattern-src").getElementsByTagName("style")[0];
-            var innerStyleString = '';
-            document.getElementById("generated-controls").innerHTML = '';
-
+        // Apply current properties on the model to the SVG properties
+        updateSVGProperties() {
+            var svg = document.getElementById("pattern-src");
             if (this.styles.rootVars.length == 0) {
                 console.log("No root vars found in SVG style. Leaving as is.");
                 return;
             }
 
-            // set root variable
+            // apply values to properties
             this.styles.rootVars.forEach(v => {
-//                console.log(v);
-//                if (v.valueType == "hexcolor") {
-//                    v.value = '#0000ff';
-//                } else {
-//                    v.value = '5';
-//                }
-                document.getElementById("pattern-src").style.setProperty(v.propertyName, v.value);
+                svg.style.setProperty(v.propertyName, v.value);
             });
 
         }
@@ -178,7 +167,7 @@ function loadSVG(filename) {
 
         patternContainer.handleResize();
         patternContainer.parseStyles();
-        patternContainer.bindStyles();
+        patternContainer.updateSVGProperties();
     }
 
     xhttp.open("GET", "../svgs/" + filename, true);
@@ -206,4 +195,3 @@ function downloadBase64File(filename, uri) {
     document.body.removeChild(link);
     delete link;
 }
-
