@@ -42,8 +42,6 @@ var patternContainer = new Vue({
             if (typeof styles == 'undefined') { return; }
 
             // CSS regexes
-//            var selectorRegex = /([#.\w\-]+)\s*{/g;
-//            var rootRegex = /:root\s*{\s+(--[\w-]+\s*:\s*[#\w\d]+;\s+)*}/g;
             var propertyRegex = /([\w\-]+)\s*:\s*(.+);/g;
             var propertyNumberGroup = /\s*([\d]+).*/g;
             var propertyHexColorGroup = /\s*(#[\da-fA-F]{6})/g;
@@ -60,15 +58,12 @@ var patternContainer = new Vue({
 
                 // found :root start
                 if (!rootParsed && line.trim().substring(0, 5) == ":root") {
-//                    console.log(line);
-
                     // parse properties until closing of :root
                     while (line.trim()[0] !=  "}") {
                         propertyRegex.lastIndex = 0;
                         propertyNumberGroup.lastIndex = 0;
                         propertyHexColorGroup.lastIndex = 0;
                         line = styleLines[++i];
-//                        console.log(line);
 
                         var propertyMatch = propertyRegex.exec(line);
                         if (propertyMatch == null) { break; }
@@ -82,11 +77,11 @@ var patternContainer = new Vue({
                         if ((propertyValueTypeMatch = propertyHexColorGroup.exec(propertyValue)) != null) {
                             propertyValueType = "hexcolor";
                             propertyValue = propertyValueTypeMatch[1];
-                            propertyValue = "#ff0000";
+//                            propertyValue = "#ff0000";
                         } else if ((propertyValueTypeMatch = propertyNumberGroup.exec(propertyValue)) != null) {
                             propertyValueType = "number";
                             propertyValue = propertyValueTypeMatch[1];
-                            propertyValue = "20";
+//                            propertyValue = "20";
                         }
 
                         // save variables
@@ -96,7 +91,6 @@ var patternContainer = new Vue({
                         obj.value = propertyValue;
                         obj.valueType = propertyValueType;
                         this.styles.rootVars.push(obj);
-
                     }
 
 //                    this.styles.rootVars.forEach(element => {
@@ -106,69 +100,41 @@ var patternContainer = new Vue({
 
                     rootParsed = true;
                 } else if (rootParsed) {
-
                     // save rest of style tag
                     this.styles.main += line + "\n";
                 }
 
             }
-            
 
             console.log(this.styles.main);
-            // TODO
-            // Copy the remainder of the style string and save so that
-            // it can be appended after the root
-
-
         },
 
         // Generate inputs and bind to style values. Inject into svg style tag.
         bindStyles() {
             // clear existing generated controls
             document.getElementById("generated-controls").innerHTML = '';
-
             var innerStyleString = '';
-            var selectors = Object.keys(this.styles);
-            for (sel of selectors) {
-                var current = this.styles[sel];
-                var properties = Object.entries(current);
-                console.log("Binding properties of '" + sel + "'...");
 
-                innerStyleString += sel + ' {\n';
-
-                // bind each property to an object value
-                for (prop of properties) {
-                    var propName = prop[0];
-                    var propContents = prop[1];
-                    var objectBindName = "patternContainer.styles[\"" + sel + "\"][\"" + propName + "\"].value";
-                    console.log("Property Name: " + propName);
-                    console.log("Property Value: " + propContents.value);
-
-                    switch(propContents.valueType) {
-                        // for numbers, generate a slider and bind to the value
-                        case "number":
-                            // console.log("number");
-                            innerStyleString += "\t" + propName + ":{{ " + objectBindName + " }};\n";
-                            break;
-                        case "hexcolor":
-                            innerStyleString += "\t" +  propName + ":{{ " + objectBindName + " }};\n";
-                            break;
-                        default:
-                    }
-
-                }
-
-                innerStyleString += "}\n\n";
-
+            if (this.styles.rootVars.length == 0) {
+                console.log("No root vars found in SVG style. Leaving as is.");
+                return;
             }
 
-            console.log("Style String:\n" + innerStyleString);
+            var rootStr = 'root: {\n';
+            var styleTag = document.getElementById("pattern-src").getElementsByTagName("style")[0];
+            console.log(styleTag);
 
-            var svg = document.getElementById("pattern-src");
-            var styles = svg.getElementsByTagName("style")[0];
-            console.log(styles);
-            //styles.firstChild = innerStyleString;
-            //styles.innerHTML = innerStyleString;
+            // construct root variables string
+            this.styles.rootVars.forEach(v => {
+                console.log(v);
+                if (v.valueType == "hexcolor") {
+                    v.value = '#0000ff';
+                } else {
+                    v.value = '5';
+                }
+                document.getElementById("pattern-src").style.setProperty(v.propertyName, v.value);
+            });
+
         }
     },
 
