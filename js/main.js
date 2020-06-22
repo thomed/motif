@@ -187,7 +187,10 @@ function loadSVG(filename) {
 
 function exportSVG() {
     // get pattern svg and encode as base64 for download
-    var svg = document.getElementById("pattern-src");
+    var svg = document.getElementById("pattern-src").cloneNode(true);
+    svg.setAttribute("width", patternContainer.pwidth * patternContainer.scale);
+    svg.setAttribute("height", patternContainer.pheight * patternContainer.scale);
+
     var svgData = new XMLSerializer().serializeToString(svg);
     var svgB64 = window.btoa(svgData);
     var dataURI = "data:image/svg+xml;base64," + svgB64;
