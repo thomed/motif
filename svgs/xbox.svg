@@ -10,10 +10,6 @@
             stroke-width: var(--default-stroke-width);
             stroke: var(--default-stroke-color);
         }
-
-        .bg {
-            background-color: #ffff00;
-        }
     </style>
     <g fill="none" stroke="#000000">
         <path d="m0 0 100 100"/>

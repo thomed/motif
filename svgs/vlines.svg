@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="4px" height="4px" version="1.1" viewBox="0 0 4 4" xmlns="http://www.w3.org/2000/svg">
- <g>
-  <path d="m0 0v4" fill="none" stroke="#000" stroke-width="1px"/>
- </g>
+    <style>
+        :root {
+            --default-stroke-width: 1;
+            --default-stroke-color: #000000;
+        }
+
+        path {
+            stroke-width: var(--default-stroke-width);
+            stroke: var(--default-stroke-color);
+        }
+    </style>
+    <g>
+        <path d="m0 0v4" fill="none" stroke="#000" stroke-width="1px"/>
+    </g>
 </svg>
