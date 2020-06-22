@@ -80,15 +80,17 @@ var patternContainer = new Vue({
                         var propertyName = propertyMatch[1];
                         var propertyValue = propertyMatch[2];
 
-                        // find what type of property value this is any perform and changes needed to what was parses
+                        // find what type of property value this is and perform any changes needed to what was parsed
                         var propertyValueTypeMatch;
                         var propertyValueType;
                         if ((propertyValueTypeMatch = propertyHexColorGroup.exec(propertyValue)) != null) {
                             propertyValueType = "hexcolor";
                             propertyValue = propertyValueTypeMatch[1];
+                            propertyValue = "#ff0000";
                         } else if ((propertyValueTypeMatch = propertyNumberGroup.exec(propertyValue)) != null) {
                             propertyValueType = "number";
                             propertyValue = propertyValueTypeMatch[1];
+                            propertyValue = "20";
                         }
 
                         // save properties
@@ -101,7 +103,56 @@ var patternContainer = new Vue({
                 }
             }
 
-            console.log(this.styles);
+//            console.log(this.styles);
+        },
+
+        // Generate inputs and bind to style values. Inject into svg style tag.
+        bindStyles() {
+            // clear existing generated controls
+            document.getElementById("generated-controls").innerHTML = '';
+
+            var innerStyleString = '';
+            var selectors = Object.keys(this.styles);
+            for (sel of selectors) {
+                var current = this.styles[sel];
+                var properties = Object.entries(current);
+                console.log("Binding properties of '" + sel + "'...");
+
+                innerStyleString += sel + ' {\n';
+
+                // bind each property to an object value
+                for (prop of properties) {
+                    var propName = prop[0];
+                    var propContents = prop[1];
+                    var objectBindName = "patternContainer.styles[\"" + sel + "\"][\"" + propName + "\"].value";
+                    console.log("Property Name: " + propName);
+                    console.log("Property Value: " + propContents.value);
+
+                    switch(propContents.valueType) {
+                        // for numbers, generate a slider and bind to the value
+                        case "number":
+                            // console.log("number");
+                            innerStyleString += "\t" + propName + ":{{ " + objectBindName + " }};\n";
+                            break;
+                        case "hexcolor":
+                            innerStyleString += "\t" +  propName + ":{{ " + objectBindName + " }};\n";
+                            break;
+                        default:
+                    }
+
+                }
+
+                innerStyleString += "}\n\n";
+
+            }
+
+            console.log("Style String:\n" + innerStyleString);
+
+            var svg = document.getElementById("pattern-src");
+            var styles = svg.getElementsByTagName("style")[0];
+            console.log(styles);
+            //styles.firstChild = innerStyleString;
+            //styles.innerHTML = innerStyleString;
         }
     },
 

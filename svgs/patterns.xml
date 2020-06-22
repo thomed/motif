@@ -5,10 +5,12 @@
         - the SVG width and height should use pixels as measurement unit
             - if other unit is used, may not appear as expected
         - the style tag should be a direct child of the svg tag
-            - each style declaration must be on its own line.
+            - each style property must be on its own line.
             - colors must be in hex format
+            - the selector must be on the same line as '{'
+                - '}' must be on its own line
             - only one selector for a style group
-                - supports tags, class names, and id's only
+                - supports tag names, class names, and id's only
 
     SVG files may need additional attributes/metadata set to communicate what 
     parameters can be attached to input

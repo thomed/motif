@@ -3,7 +3,11 @@
     <style>
         path {
             stroke-width: 10;
-            stroke: #FF0000;
+            stroke: #000000;
+        }
+
+        .bg {
+            background-color: #ffff00;
         }
     </style>
     <g fill="none">
