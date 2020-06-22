@@ -2,6 +2,16 @@ body {
     font-family: sans-serif;
 }
 
+button {
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+}
+
 #main-content {
     padding: 1em;
     margin: auto;

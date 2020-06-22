@@ -144,6 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     xhttp.open("GET", "../svgs/patterns.xml", true);
     xhttp.send(null);
+
+    loadSVG("xbox.svg");
 });
 
 function loadSVG(filename) {
