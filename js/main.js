@@ -34,7 +34,6 @@ var patternContainer = new Vue({
         parseStyles() {
             this.styles = {};
             this.styles.rootVars = [];
-            this.styles.main = '';
             var svg = document.getElementById("pattern-src");
             var styles = svg.getElementsByTagName("style")[0];
 
@@ -57,7 +56,7 @@ var patternContainer = new Vue({
                 if (line.trim().length == 0) { continue; }
 
                 // found :root start
-                if (!rootParsed && line.trim().substring(0, 5) == ":root") {
+                if (line.trim().substring(0, 5) == ":root") {
                     // parse properties until closing of :root
                     while (line.trim()[0] !=  "}") {
                         propertyRegex.lastIndex = 0;
@@ -65,27 +64,25 @@ var patternContainer = new Vue({
                         propertyHexColorGroup.lastIndex = 0;
                         line = styleLines[++i];
 
+                        var obj = {};
+                        var propertyName, propertyValue;
+                        var propertyValueType, propertyValueTypeMatch;
                         var propertyMatch = propertyRegex.exec(line);
                         if (propertyMatch == null) { break; }
 
-                        var propertyName = propertyMatch[1];
-                        var propertyValue = propertyMatch[2];
+                        propertyName = propertyMatch[1];
+                        propertyValue = propertyMatch[2];
 
                         // find what type of property value this is and perform any changes needed to what was parsed
-                        var propertyValueType;
-                        var propertyValueTypeMatch;
                         if ((propertyValueTypeMatch = propertyHexColorGroup.exec(propertyValue)) != null) {
                             propertyValueType = "hexcolor";
                             propertyValue = propertyValueTypeMatch[1];
-//                            propertyValue = "#ff0000";
                         } else if ((propertyValueTypeMatch = propertyNumberGroup.exec(propertyValue)) != null) {
                             propertyValueType = "number";
                             propertyValue = propertyValueTypeMatch[1];
-//                            propertyValue = "20";
                         }
 
                         // save variables
-                        var obj = {};
                         obj.propertyName = propertyName;
                         obj.defaultValue = propertyValue;
                         obj.value = propertyValue;
@@ -93,36 +90,23 @@ var patternContainer = new Vue({
                         this.styles.rootVars.push(obj);
                     }
 
-//                    this.styles.rootVars.forEach(element => {
-//                        console.log(element.propertyName + ": " + element.value);
-//                        console.log(element);
-//                    });
-
-                    rootParsed = true;
-                } else if (rootParsed) {
-                    // save rest of style tag
-                    this.styles.main += line + "\n";
+                    return;
                 }
-
             }
-
-            console.log(this.styles.main);
         },
 
         // Generate inputs and bind to style values. Inject into svg style tag.
         bindStyles() {
             // clear existing generated controls
-            document.getElementById("generated-controls").innerHTML = '';
+            var rootStr = 'root: {\n';
+            var styleTag = document.getElementById("pattern-src").getElementsByTagName("style")[0];
             var innerStyleString = '';
+            document.getElementById("generated-controls").innerHTML = '';
 
             if (this.styles.rootVars.length == 0) {
                 console.log("No root vars found in SVG style. Leaving as is.");
                 return;
             }
-
-            var rootStr = 'root: {\n';
-            var styleTag = document.getElementById("pattern-src").getElementsByTagName("style")[0];
-            console.log(styleTag);
 
             // set root variable
             this.styles.rootVars.forEach(v => {
@@ -207,10 +191,6 @@ function exportSVG() {
     var svgData = new XMLSerializer().serializeToString(svg);
     var svgB64 = window.btoa(svgData);
     var dataURI = "data:image/svg+xml;base64," + svgB64;
-
-//    console.log(svg);
-//    console.log(svgData);
-//    console.log(svgB64);
     downloadBase64File("pattern.svg", dataURI);
 }
 
