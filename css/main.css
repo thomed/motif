@@ -1,3 +1,6 @@
+body {
+    font-family: sans-serif;
+}
 
 #main-content {
     padding: 1em;
@@ -72,4 +75,8 @@
 .slider-label {
     margin-top: 0.5em;
     position: absolute;
+}
+
+.text-center {
+    text-align: center;
 }

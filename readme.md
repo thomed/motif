@@ -11,8 +11,4 @@ You may have to run with an http server to avoid CORS:
   python -m http.server
 
 ### TODOs
-- Add ability to export SVG file with modified attributes/values
 - Add controls for SVG properties/styles (colors, stroke weights, etc)
-  - Parseable <style> tags in SVG files for extensibility?
-- Code organization
-  - Probably move svgparse.js into main.js
