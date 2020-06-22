@@ -43,7 +43,7 @@ var patternContainer = new Vue({
             // CSS regexes
             var propertyRegex = /([\w\-]+)\s*:\s*(.+);/g;
             var propertyNumberGroup = /\s*([\d]+).*/g;
-            var propertyHexColorGroup = /\s*(#[\da-fA-F]{6})/g;
+            var propertyHexColorGroup = /\s*#([\da-fA-F]{6})/g;
 
             // the CSS text
             var styleText = styles.firstChild.data;
@@ -105,9 +105,11 @@ var patternContainer = new Vue({
 
             // apply values to properties
             this.styles.rootVars.forEach(v => {
+                if (v.valueType == 'hexcolor' && v.value[0] != '#') {
+                    v.value = "#" + v.value;
+                }
                 svg.style.setProperty(v.propertyName, v.value);
             });
-
         }
     },
 
@@ -134,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
     xhttp.onload = function() {
         var dom = new DOMParser().parseFromString(xhttp.response, "application/xml");
         var patterns = dom.getElementsByTagName("pattern");
-        for (let p of patterns){ 
+        for (let p of patterns) {
             // console.log(p.getElementsByTagName("file")[0].textContent);
             listContainer.patterns.push(p.getElementsByTagName("file")[0].textContent);
         }

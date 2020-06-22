@@ -58,8 +58,14 @@
 
 				<div id="generated-controls">
 					<div v-for="v in styles.rootVars">
-						<label v-if="v.valueType == 'number'" v-bind:for="v.propertyName" class="slider-label">{{ v.propertyName }}</label>
-						<input v-if="v.valueType == 'number'" v-bind:id="v.propertyName" class="labeled-slider" type="range" v-model="v.value" @change="updateSVGProperties">
+						<template v-if="v.valueType == 'number'">
+							<label v-bind:for="v.propertyName" class="slider-label">{{ v.propertyName }}</label>
+							<input v-bind:id="v.propertyName" class="labeled-slider" type="range" v-model="v.value" @change="updateSVGProperties">
+						</template>
+						<template v-if="v.valueType == 'hexcolor'">
+							<label v-bind:for="v.propertyName" class="slider-label">{{ v.propertyName }}</label>
+							<input type="color" v-bind:id="v.propertyName" class="labeled-slider" v-model="v.value" @change="updateSVGProperties">
+						</template>
 					</div>
 				</div>
 

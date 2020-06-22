@@ -9,6 +9,7 @@
         path {
             stroke-width: var(--default-stroke-width);
             stroke: var(--default-color);
+            fill: var(--default-color);
         }
     </style>
 
